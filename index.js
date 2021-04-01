@@ -1,38 +1,31 @@
 const express = require('express');
+const { v4:uuidv4 } = require('uuid');
 
 const app = express();
 
-// console.log(app);
+app.use(express.json());
 
-//criando uma rota
+const projects = [];
 
-
-
-// app.get('/', (request, response) => {
-//     response.send('Olá, Mundo!');
-// })
 
 app.get('/projects', (request, response) => {
-    const {title, owner} = request.query;
+    // const {title, owner} = request.query;
     
-    console.log(title);
-    console.log(owner);
-
-    return response.json([
-
-        'Projeto 1',
-        'Projeto 2',
-        'Projeto 100'
-    ])
+    return response.json(projects)
+        
 });
 
+
 app.post('/projects', (request, response) => {
-    return response.json([
-        'Projeto 1',
-        'Projeto 2',
-        'Projeto 3',
-        'Projeto 4'
-    ])
+    const { title, owner } = request.body;
+    
+    const project = { id: uuidv4(), title, owner };
+
+    console.log(project.id)
+
+    projects.push(project); // esse push vai jogar a criação do nosso projeto para o nosso array
+    
+    return response.json(project); // sempre retornar o projeto recén criado
 
 })
 
